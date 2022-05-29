@@ -1,0 +1,30 @@
+void permutation_generater(int i,string s,vector<string> &ans,unordered_map<string,int> &m)
+{ 
+  if(i==s.size())
+  {
+    if(m[s]==0) // only those string will push who has not be inside ans. For string like "ABB" where all permutation will make "ABB" come more than once   
+    {
+       m[s]++;
+       ans.push_back(s);
+    }
+    return ;
+  }
+  
+  for(int j=i;j<s.size();j++) // j=i before i all character are fixed hence we start from j=i
+  { 
+    swap(s[i],s[j]); // swapping character to so for the next function call we can get the new permutation of string
+    permutation_generator(i+1,s,ans,m); // i+1 
+    swap(s[i],s[j]); // Backtracking as we return from the last function call. We want the same string
+  }
+
+}
+
+vector<string> find_permutaion(vector<string> s)
+{
+   unordered_map<string,int> m;// to handle the string with duplicate char in it "ABB"
+   vector<string> ans;
+   
+   permutation_generater(0,s,ans,m);
+   sort(ans.begin(),ans.end()) //for lexographical ordering
+   return ans;
+}
