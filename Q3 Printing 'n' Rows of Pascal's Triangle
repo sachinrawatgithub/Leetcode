@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<vector<int>> generate(int n) 
+    {
+       vector<vector<int>> ans;
+       vector<int> v;
+       int val;
+       
+       for(int i=0;i<n;i++)
+       {
+         v.clear();
+         for(int j=0;j<=i;j++) // j<i number of column in a row is equal to row's number
+         {
+            if(j==0 || j==i) // for every row first and last column is 1 and also it can't be calculate with else logic as it will get segmentation fault 
+                             // hence seprate code for it 
+             {
+                v.push_back(1); 
+             }
+             else
+             {
+                val = ans[i-1][j-1]+ans[i-1][j]; 
+                v.push_back(val);
+             }
+         }
+       
+       ans.push_back(v);
+       }
+     
+     return ans;
+    }
+};
