@@ -1,0 +1,42 @@
+class Solution 
+{
+public:
+
+void nextPermutation(vector<int>& nums) 
+{  
+   int n = nums.size();
+   int flag=0,first_dip;
+   for(int i=n-1;i>0;i--)
+   {
+      if(nums[i-1] < nums[i] )
+      {
+         first_dip = i-1;
+         flag=2;
+         break;
+      }
+   }
+   
+if(flag)
+{
+ 
+   int maxi=INT_MAX,just_nxt_grt;
+   for(int j=first_dip+1; j<n; j++)
+   {
+      if( nums[j] > nums[first_dip] && nums[j] < maxi )
+      {
+         just_nxt_grt=j;
+         maxi=nums[j];
+      }
+   }
+   
+   swap(nums[first_dip], nums[just_nxt_grt]);
+   
+   sort(nums.begin()+first_dip+1, nums.end());
+}
+else
+{
+  sort(nums.begin(), nums.end());
+}
+
+}
+};
