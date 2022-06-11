@@ -1,5 +1,13 @@
 class Solution {
 public:
+// 1 3 4 2 7 0 5
+// We have to maintain min and max till i 
+// this we can do with the help of stack storing increasing elements
+// the min will be in the bottom of the stack and max at top of stack
+// stack 1 3 4 for i=3 arr[i]=3 now top > val hence before inserting val we cal top - bottom of stack (we can't access bottom of stack for that 
+// when ever stack is empty before inserting val into it we store val into a variable name bott) so that if val is less that the bottom of stack we have to pop all 
+// element we lost all info 
+
     int maxProfit(vector<int>& prices) 
     {
        stack<int> s;
