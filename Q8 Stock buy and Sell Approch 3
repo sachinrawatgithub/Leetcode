@@ -1,0 +1,29 @@
+class Solution {
+public:
+
+// for space constant means no DS used  
+// time linear means iteration over prices 
+// here we maintain min while traversing from left to right and calculating price[i] - mini 
+// selecting max of all price[i] - mini 
+
+int maxProfit(vector<int>& pr) 
+    {
+        int n=pr.size();
+        int mini,maxi=-1;
+            
+        for(int i=0;i<n;i++)
+        {
+            if(i==0)
+            {
+                mini=pr[i];
+            }
+            else if(pr[i] < mini)
+            {
+                mini=pr[i];
+            }
+            
+           maxi = max(maxi,pr[i]-mini); 
+        }
+     return maxi;   
+    }
+};
