@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) 
+    {
+       stack<int> s;
+       int i=0,n=prices.size(),bott=prices[0],maxi=0; 
+       
+       s.push(bott);
+       
+        
+       while(i<n)
+       {
+           if(s.empty())
+           {
+              bott=prices[i];
+              s.push(bott);
+               i++;
+           }
+           
+           else if(s.top() < prices[i] )
+           {
+               s.push(prices[i]);
+               maxi=max(prices[i]-bott,maxi);
+               i++;
+           }
+           
+           else
+           {
+               s.pop();
+           }   
+           
+       }
+    
+    return maxi;    
+        
+    }
+};
