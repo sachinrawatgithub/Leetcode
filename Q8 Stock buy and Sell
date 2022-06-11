@@ -1,7 +1,8 @@
 class Solution {
 public:
 // 1 3 4 2 7 0 5
-// We have to maintain min and max till i 
+// We have to maintain min and max IN ORDER ( means min should be left side of max) as in the ex- min is 0 and max is 7 but 0 is in right of 7 
+// AS STOCK SHOULD BUY FIRST THEN SELL
 // this we can do with the help of stack storing increasing elements
 // the min will be in the bottom of the stack and max at top of stack
 // stack 1 3 4 for i=3 arr[i]=3 now top > val hence before inserting val we cal top - bottom of stack (we can't access bottom of stack for that 
