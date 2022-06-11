@@ -1,0 +1,49 @@
+class Solution {
+public:
+// traveling from right to left storing maxi in an array till i 
+// Ex- array         2 1 5 3 6 4
+// maxi_from_right   6 6 6 6 6 4
+// max profit        4 5 1 3 0 0 
+// the thing is maintaining min and max till i  INORDER IN ORDER ( means min should be left side of max)  
+// AS STOCK SHOULD BUY FIRST THEN SELL
+// here we are preprocessing we store max from right side of prices so if we say what is max from i=2 its 6 so we know max from i to n through max_from_right array
+
+// IMP
+// After more understaning i can put it in one sentence find maxi of all  (ith index se leke nth index tak maxi val of price ka diffrence )
+// i=0 se nth tak max = 7 hence 7-1=6
+// i=1 se nth tak max = 7 hence 7-3=4
+// and so on.. in sab ka maxi is our ans 
+
+
+    int maxProfit(vector<int>& prices) 
+    {
+        int n=prices.size();
+        int maxi_from_right[n];
+        maxi_from_right[0]=prices[n-1];
+      
+        for(int i=n-1,k=0;i>=0;i--,k++) 
+        {
+           if(k==0)
+           {
+               maxi_from_right[k]=prices[i];
+           }
+           else if(prices[i] > maxi_from_right[k-1] )
+           {
+               maxi_from_right[k]=prices[i];
+           }
+           else
+           {
+               maxi_from_right[k]=maxi_from_right[k-1];
+           } 
+       }
+       
+       reverse(maxi_from_right,maxi_from_right+n);
+       int maxi=maxi_from_right[0]-prices[0];
+        
+       for(int i=1;i<n;i++)
+       {
+           maxi=max(maxi_from_right[i]-prices[i],maxi);
+       }
+       return maxi; 
+    }
+};
