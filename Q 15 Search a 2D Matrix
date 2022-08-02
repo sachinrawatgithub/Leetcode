@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) 
+    {
+        
+      for(int i=0;i<matrix.size();i++)// searching every row
+      {
+          int n=matrix[i].size();
+          if(matrix[i][0] <= target && matrix[i][n-1] >= target)// check if is this is the row 
+          {
+              for(int j=0;j<n;j++)// traversing in that row
+              {
+              
+                // vector<int>::iterator lower;// for  traversing in a row of vector<vector<int>> we are using iterator of type vector<int> Syntax - DT::iterator var_name 
+                auto lower = lower_bound(matrix[i].begin(),matrix[i].end(),target);// Using lower_bound fuction(binary search) TC - O(log n)
+                // cout<<lower-matrix[i].begin()<<" "<<n;
+                  
+                if( matrix[i][lower-matrix[i].begin()] != target )// Checking if this is the target
+                    return false;
+                else
+                    return true;
+              }              
+             
+          }
+      }
+        
+      return false;    
+    }
+};
