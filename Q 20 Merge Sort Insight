@@ -1,0 +1,78 @@
+//Ex- 40,25,19,12,9,6,2       
+//                l  mid                 h
+//EX-  left array 25,40  right array 12,19          
+//                0  1               2   3  
+//Imp-> Note always array a,b are sorted individually this always happend in merge sort as 
+//we have individual ele in the array in beginning a=40    b=25 (sorted) we merge them and put on real array arr= 25,40,19,12,9,6,2(rest ele same)
+//than a=19 b=12 (sorted) we merge them and put on real array arr= 25,40,12,19,9,6,2(rest ele same) and so on for better understanding SEE MERGE SORT INSIGHT Q20
+//i am explaining the same with code
+//RUN THIS CODE AND SEE THE OUTPUT u will understand
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void merge(long long int l,vector<int>& arr,int h,int mid,int *ans)
+    {
+        long long int n1=mid-l+1,n2=h-mid;
+        long long int a[n1],b[n2];
+        
+        for(int i=0;i<n1;i++)
+          a[i]=arr[l+i];
+          
+        for(int i=0;i<n2;i++)
+          b[i]=arr[mid+1+i];  
+        
+        int x=0,y=0,k=l;
+        while(x<n1 && y<n2)
+        {   
+            if(a[x]<=b[y])
+            {
+                arr[k++]=a[x++];
+            }
+            else
+            {
+                arr[k++]=b[y++];
+            }
+        }
+        
+        while(x<n1)
+        {
+            arr[k++]=a[x++];
+        }
+        
+        while(y<n2)
+        {
+            arr[k++]=b[y++];
+        }
+        
+        
+        for(int q=0;q<7;q++)
+        cout<<arr[q]<<" ";
+        cout<<endl;
+        
+    }
+    
+    void mergesort(int l,vector<int>& arr,int h,int *ans)
+    {
+        if(l<h)
+        {
+          int mid = (h+l)/2;
+          mergesort(l,arr,mid,ans);
+          mergesort(mid+1,arr,h,ans);
+          merge(l,arr,h,mid,ans);
+        }
+        
+    }
+
+
+
+int main()
+{
+    vector<int> arr={40,25,19,12,9,6,2};
+    int n=arr.size(), ans=0;
+    mergesort(0,arr,n-1,&ans);
+    
+    return ans;
+  
+}
