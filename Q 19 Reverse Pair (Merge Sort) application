@@ -1,0 +1,100 @@
+/*Given an integer array nums, return the number of reverse pairs in the array.A reverse pair is a pair (i, j) where 0 <= i < j < nums.length and nums[i] > 2 * nums[j].
+Example 1:
+Input: nums = [1,3,2,3,1]
+Output: 2
+
+Example 2:
+Input: nums = [2,4,3,5,1]
+Output: 3
+*/
+
+class Solution {
+public:
+
+void merge(long long int l,vector<int>& arr,int h,int mid,int *ans)
+    {
+        long long int n1=mid-l+1,n2=h-mid;
+        long long int a[n1],b[n2];
+        
+        for(int i=0;i<n1;i++)
+          a[i]=arr[l+i];
+          
+        for(int i=0;i<n2;i++)
+          b[i]=arr[mid+1+i];  
+        
+        int x=0,y=0,k=l;
+
+//Ex- 40,25,19,12,9,6,2       
+//                                                                           l  mid                h
+//this is the code where changes have been made the thing is EX-  left array 25,40  right array 12,19          
+//                                                                           0  1               2   3  
+//for every i, I will find the first ele which does not satisfy cond -> nums[i] > 2*nums[j] in the right array. Hence all the ele on the right side of the j 
+//in the right array form pair with i 25,12 as here at j=3 cond get unsatisfy then we i++(40) at j=4 we come out of while loop hence all (40,12),(40,19) make pair 
+//with 40
+
+//IMP TIME COMPLEXITY -> of this for->while loop is N+M(N,M are length of right,left array) not N^2 because if j reches j > h (then 'no' for while loop) 
+//and also for a i we are NOT starting j from mid+1(beginning). Hece total TC of code -> nlogn    
+
+
+
+//Imp MERGE SORT-> Note always array a,b are sorted individually this always happend in merge sort as 
+//we have individual ele in array in beginning a=40    b=25 (sorted) we merge them and put on real array arr= 25,40,19,12,9,6,2(rest ele same)
+//than a=19 b=12 (sorted) we merge them and put on real array arr= 25,40,12,19,9,6,2(rest ele same) and so on for better understanding SEE MERGE SORT INSIGHT Q20
+//i am explaining the same with code  
+
+        int j = mid + 1;
+   
+       for(int i = l; i <= mid; i++) 
+       {
+            while(j <= h && (arr[i] > (long long)2*arr[j]) ) 
+             {
+                j++;
+             }
+             *ans = *ans + (j - (mid + 1));
+        }
+    
+        while(x<n1 && y<n2)
+        {   
+            if(a[x]<=b[y])
+            {
+                arr[k++]=a[x++];
+            }
+            else
+            {
+                arr[k++]=b[y++];
+            }
+        }
+        
+        while(x<n1)
+        {
+            arr[k++]=a[x++];
+        }
+        
+        while(y<n2)
+        {
+            arr[k++]=b[y++];
+        }
+    
+    }
+    
+    void mergesort(int l,vector<int>& arr,int h,int *ans)
+    {
+        if(l<h)
+        {
+          int mid = (h+l)/2;
+          mergesort(l,arr,mid,ans);
+          mergesort(mid+1,arr,h,ans);
+          merge(l,arr,h,mid,ans);
+        }
+        
+    }
+    
+    
+int reversePairs(vector<int>& arr) 
+{
+    int n=arr.size(), ans=0;
+    mergesort(0,arr,n-1,&ans);
+    
+    return ans;
+}
+};
