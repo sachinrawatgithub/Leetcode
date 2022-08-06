@@ -1,0 +1,42 @@
+/*
+Input: m = 3, n = 2
+Output: 3
+Explanation: From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
+1. Right -> Down -> Down
+2. Down -> Down -> Right
+3. Down -> Right -> Down
+*/
+
+class Solution {
+public:
+    
+void path(int x,int y,int m,int n,int *ans)
+{
+    if(x>=m || y>=n)
+    {
+        return ;
+    }
+    
+    if(x==m-1 && y==n-1)
+    {
+        (*ans)++;//brackets are imp otherwise *ans+=1
+        return ;
+    }
+    
+    
+    path(x+1,y,m,n,ans);
+                        //backtracking val of x is backtrack 
+                        //if we would have to print path also, then we would pop x means down form vector 
+    path(x,y+1,m,n,ans);
+    
+    return ;
+    //TC-O(2^n) trying out every possible way 
+}
+    
+int uniquePaths(int m, int n)
+{
+    int ans=0;//not printing path, if then vector<vector<char>> and a vector<char> in vector<char> store path and push this path to vector<vector<char>> 
+    path(0,0,m,n,&ans);  
+    return ans;
+}
+};
