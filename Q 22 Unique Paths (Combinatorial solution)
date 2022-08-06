@@ -1,0 +1,15 @@
+// ans = m+n-2 C n-1    or m+n-2 C m-1    Watch striver
+// TC- O min(m,n) = O(n)  
+int uniquePaths(int m, int n)
+{
+    int N=m+n-2;
+    long long int res=1;
+    
+    int mini=min(m,n);
+    int r=mini-1;
+    
+    for(int i=1;i<=r;i++)
+        res=res*(N-r+i)/i;
+   
+    return res;
+}
