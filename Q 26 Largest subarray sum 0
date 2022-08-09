@@ -1,0 +1,47 @@
+/*
+Input:
+N = 8
+A[] = {15,-2,2,-8,1,7,10,23}
+Output: 5
+Explanation: The largest subarray with
+sum 0 will be -2 2 -8 1 7.
+*/
+
+
+
+class Solution{
+public:
+int maxLen(vector<int>&a, int n)
+{   
+    map<int,int> m;
+    
+    int cf[n+1]={0}; // IMP-> we start cf array WITH 0 only then all test case pass(with no coner case handling).    
+    for(int i=0;i<n;i++)
+    {
+        cf[i+1]=cf[i]+a[i];
+    }
+    
+    // if(cf[n-1]==0)//conner case handling  EX- a = -1 1 -2 2
+    // return n;                         
+    
+    int ans=0;
+    for(int i=0;i<n+1;i++)
+    {
+        if( m.find(cf[i]) == m.end() )
+        {
+            m[cf[i]]=i;
+        }
+        // else if(cf[i]==0) //conner case handling  EX- a => -1 1 -2 2
+        // {           CASE Which IS NOT HANDLED     EX- a => 8 26 -8 -26  cf= 8 34 26 0 hece ans comming 0 BUT ACTUAL ANSWER = 4  BUT IF CF= 0 8 34 26 0 THEN ans = 4 
+        //     ans= max(ans,i+1) ;
+        // }
+        else
+        {
+            ans=max(ans,i-m[cf[i]]);
+        }
+        
+    }
+    return ans;
+    
+}
+};
