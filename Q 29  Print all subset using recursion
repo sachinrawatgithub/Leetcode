@@ -1,0 +1,37 @@
+/*
+Method 2: The idea is to consider two cases for every character. 
+(i) Consider current character as part of current subset 
+(ii) Do not consider current character as part of the current subset.  
+*/
+
+// CPP program to generate power set
+// TC-O(2^n)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ 
+void generateSubsets(int arr[], int indx, int n, vector<int>& subset)
+  {
+ 
+   if(indx == n)// Base cond
+   {
+       printSubset(subset);
+       return;
+   }
+   generateSubsets(arr, indx + 1, n, subset);  // Don’t take the current element in the subset and move to the next
+   
+   subset.push_back(arr[indx]); // Take the current element in the subset and then 
+   generateSubsets(arr, indx + 1, n, subset); //  move to the next
+   
+   //IMP STEP BACKTRACKING
+   subset.pop_back(); // Backtrack and pop the element before moving to the next
+  }
+
+int main()
+  {
+   int arr[3] = {0, 1, 2};
+   vector<int> subset;
+   cout<<"All the subsets of the set containing the elements of arr are :"<<endl;
+   generateSubsets(arr, 0, 3, subset);
+  }
