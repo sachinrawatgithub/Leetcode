@@ -1,0 +1,39 @@
+/*
+A SUBARRAY is a contiguous array (i.e., occupy consecutive positions) and maintains the order. 
+For example, the subarrays of array {1, 2, 3} are 2^n (n=no. of ele)  {1}, {1, 2}, {1, 2, 3}, {2}, {2, 3}, and {3}.
+
+A SUBSEQUENCE is a sequence of elements without changing the order  
+For example, {nums, B, D} is a subsequence of sequence {nums, B, C, D, E} obtained after removing {C} and {E}.
+Generating all subsequences is equivalent to generating a power set (2^n), where n is the size of the given set.
+
+A SUBSET is any possible combination of the original set. The term subset is often used for subsequence, but that’s not right. 
+A subsequence always maintains the relative order of the array elements but there is no such restriction on a subset. 
+For example, {3, 1} is a valid subset of {1, 2, 3, 4, 5}, but it is neither a subsequence nor a subarray.
+
+It is worth noting that all subarrays are subsequences and all subsequences are a subset, but the reverse is not valid. 
+For instance, a subarray {1, 2} of array {1, 2, 3, 4, 5} is also a subsequence and a subset.
+*/
+
+// TC-O(N^2) 
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  int n=5;
+  int a[5]={1,2,3,4,5};
+  for(int i=0;i<n;i++)
+  {
+    for(int j=0;j<n;j++)
+    {
+        for(int k=i;k<=j ;k++)
+        {
+            cout<<a[k];
+        }
+    cout<<endl;
+    }
+  }
+  
+}
+  
