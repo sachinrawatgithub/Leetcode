@@ -1,0 +1,98 @@
+Given a Linked List of size N, where every node represents a sub-linked-list and contains two pointers:
+(i) a next pointer to the next node,
+(ii) a bottom pointer to a linked list where this node is head.
+Each of the sub-linked-list is in sorted order.
+Flatten the Link List such that all the nodes appear in a single level while maintaining the sorted(can be in DECENDING also) order. 
+Note: The flattened list will be printed using the bottom pointer instead of next pointer. For more clearity have a look at the printList() function in the driver code.
+
+Example 1:
+
+Input:
+5 -> 10 -> 19 -> 28
+|     |     |     | 
+7     20    22   35
+|           |     | 
+8          50    40
+|                 | 
+30               45
+Output:  5-> 7-> 8- > 10 -> 19-> 20->
+22-> 28-> 30-> 35-> 40-> 45-> 50.
+Explanation:
+The resultant linked lists has every 
+node in a single level.
+(Note: | represents the bottom pointer.)
+ 
+
+Example 2:
+
+Input:
+5 -> 10 -> 19 -> 28
+|          |                
+7          22   
+|          |                 
+8          50 
+|                           
+30              
+Output: 5->7->8->10->19->22->28->30->50
+Explanation:
+The resultant linked lists has every
+node in a single level.
+
+
+--HINT use Merge Sort
+-- 2 linked list merge -> use DUMMY because Have to return list whoes header is gona decide at runtime 
+-- DRY RUN must WITH smallest POSSIBLE EXAMPLE  
+
+
+Node* merge(Node* root)
+{
+    Node *l1=root,*l2=root->next;
+    Node temp(0);
+    Node *head = &temp;
+  
+  
+    while(l1 && l2)
+    {
+        
+        if(l1->data < l2->data)
+        {
+            
+            head->bottom=l1;
+            head=l1;
+            l1=l1->bottom;
+        }
+        else
+        {   
+            head->bottom=l2;
+            head=l2;
+            l2=l2->bottom;
+            
+        }
+    }
+    
+    if(l1)
+    {
+        head->bottom=l1;
+    }
+    
+    if(l2)
+    {
+        head->bottom=l2;
+    }
+    
+ return temp.bottom;   
+}
+ 
+Node *flatten(Node *root)
+{
+   if(root==NULL || root->next==NULL)
+      return root;
+   
+   else
+   {
+      root->next=flatten(root->next);
+      root->next=merge(root);
+    }
+ 
+ return root->next;
+}
