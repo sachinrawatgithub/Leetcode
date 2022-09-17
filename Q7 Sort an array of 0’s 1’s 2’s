@@ -1,10 +1,26 @@
+* Basicaly a[mid]=0 swap(a[mid],a[i])  and i++ mid++ as before i I am damn sure every thing is 0
+* Basicaly a[mid]=2 swap(a[mid],a[j])  and j++ as after j I am damn sure every thing is 2
+* mid= (0,2)both case be handel noe when 1 then no need of any swap just mid++             
+
+0 1 2 2 1 0 
+i         j
+m
+
+0 1 2 2 1 0 
+  i       j // everything behind i,j will be sorted before i all be set as 0, j 2 
+  m
+  
+0 1 2 2 1 0 
+  i       j
+    m
+
 class Solution {
 public:
  
 void sortColors(vector<int>& nums) 
 {
    int mid=0,l=0,h=nums.size()-1;
-   while(mid<=h )
+   while(mid<=h ) // IMP (mid<h) won't work
    {
        if(nums[mid]==0)
        {
