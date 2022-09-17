@@ -90,7 +90,7 @@ Node *flatten(Node *root)
    
    else
    {
-      root->next=flatten(root->next);
+      root->next= flatten(root->next);
       root->next=merge(root);
     }
  
