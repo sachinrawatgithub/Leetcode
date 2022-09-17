@@ -1,0 +1,55 @@
+Approaches
+* sort the array tc-nlogn
+* use extra space n make array-map(easy with no neg ele) whoes length=maxi ele(when no neg ele)    
+  with neg we have to ADD the neg of smallest ele to every ele(now all ele is post).
+* use set(store ele in increasing order)
+
+
+* Use Heap DS 
+
+class Solution{
+    public:
+    
+    void heapify(int a[],int n,int i)
+    {
+        int larg=i;
+        int l=2*i+1;
+        int r=2*i+2;
+        
+        if(l<n && a[larg] < a[l])
+            larg=l;
+        
+        if(r<n && a[larg] < a[r])
+            larg=r;
+        
+        if(larg != i)
+        {
+            swap(a[larg],a[i]);
+            heapify(a,n,larg);
+        }
+    }
+    
+    void heapsort(int a[],int n)
+    {
+        int i=n/2-1;
+        for(;i>=0;i--)
+        {
+            heapify(a,n,i); //Return MAX/MIN Heap
+        }
+        
+        for(i=0;i<n;i++)
+        {
+            swap(a[0],a[n-1-i]);// storing the max ele at the n-1 index 
+            heapify(a,n-1-i,0); // root ke liye heapify call kare ge bas 
+        }
+        
+    }
+    
+    int kthSmallest(int arr[], int l, int r, int k) 
+    {
+        int n=r+1;
+        heapsort(arr,n);
+    
+    return arr[k-1];
+    }
+};
