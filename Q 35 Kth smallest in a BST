@@ -1,0 +1,44 @@
+Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+Constraints:
+
+The number of nodes in the tree is n.
+1 <= k <= n <= 104
+0 <= Node.val <= 104
+
+Input: root = [3,1,4,null,2], k = 1
+Output: 1
+
+* Travel BST inoder wise, as Inoder of BST  is Sorted hence Print kth node->val
+
+
+class Solution {
+public:
+    
+    int fun(TreeNode* root,int *k)
+    {
+        if(!root)
+          return -1;// -1 as     0 <= Node.val <= 104    hence -1 means root=null
+                
+        int ans=fun(root->left,k);
+        if(ans!=-1) //checking if we had find our ans or not if ans=-1 not found as -1 is returned by root==null
+          return ans; 
+        
+            
+        *k=*k-1; //making the k decrement as we have traverse the node
+        if(*k==0)//we found our answer
+           return root->val;
+        
+        ans=fun(root->right,k); 
+        
+        if(ans!=-1)  //checking if we had find our ans or not if ans=-1 not found as -1 is returned by root==null
+         return ans;
+    
+    return -1;  // as we have not found our answer we are returning -1(we are damn sure about that(not found answer if u running this statement)) 
+               // if answer would be found we would have return ans in the above if   
+    }
+    
+    int kthSmallest(TreeNode* root, int k) 
+    {   
+        return fun(root,&k);
+    }
+};
