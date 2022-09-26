@@ -2,8 +2,8 @@ class Solution
 {
 public:
 // ex- 1 2 4 3 find next lexiographical permuation of this ANS = 1 3 2 4 
-// approach is next permuation will come if we find first dip from right side 
-// here travelling from right side 3 4 2   
+// approach is next permuation will come if we find first dip from RIGHT SIDE
+// here travelling from right side 1 2 <-4 <-3 <-   
 // we find there is a dip in 2 hence store its index 
 // swap it with the next numerical wise greater element afterwards the index of first_dip in our case its 3
 // swapping nums become 1 3 4 2 
@@ -16,7 +16,7 @@ void nextPermutation(vector<int>& nums)
    int n = nums.size();
    int first_dip; 
    int flag=0; flag => if ther is no dip ex-4321 then we have to return 1st permutaion which is increasing order 
-   for(int i=n-1;i>0;i--)
+   for(int i=n-1; i>0; i--)
    {
       if(nums[i-1] < nums[i] )
       {
