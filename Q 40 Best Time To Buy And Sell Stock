@@ -1,0 +1,78 @@
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+Example 1:
+
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+Example 2:
+
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transactions are done and the max profit = 0.
+
+/*** Cooncept is to maintain max from right and when an ele found minimum of maxi cal profit 
+EX-  7 1 5 3 5 6 4
+int maxi=0,n=a.size();
+int i=n-1,profit=0;
+
+we go 4 > maxi maxi=4 profit is still 0 as we cant sell it on the same day
+then 6 > maxi maxi=6 profit=0;
+then 5 as  5 < maxi hence it means we can have some profit profit=maxi-5;
+then so on 
+the same we are doing with stack maintaining max from right and as ele less then max come we cal profit.
+
+class Solution {
+public:
+    
+       /*************************************************************     With Space Complexity (1)        *************************************************/
+       int maxProfit(vector<int>& a) 
+       {
+          int maxi=0,n=a.size();
+          int i=n-1,profit=0;
+        
+            while(i>=0)
+            {
+                 if(maxi < a[i])
+                   maxi=a[i];
+                 else
+                 {
+                  profit=max(maxi-a[i],profit);
+                 }
+             
+             i--;   
+             }
+            return profit;
+         }
+        
+        /*************************************************************     With Space Complexity (N)        *************************************************/
+        stack<int> st;
+        int n=a.size(),maxi=0;
+        int i=n-1;
+        
+        while(i>=0)
+        {
+            if(st.empty())
+            {
+                st.push(a[i]);
+            }
+            else if( a[i] <= st.top() )
+            {
+                maxi=max(st.top()-a[i], maxi );
+            }
+            else
+            {
+                st.pop();
+                continue; 
+            }    
+            
+        i--;
+        }
+        
+    return maxi;
+    }
+        
+};
