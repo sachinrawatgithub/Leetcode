@@ -1,0 +1,129 @@
+You are given a 0-indexed integer array nums. For each index i (1 <= i <= nums.length - 2) the beauty of nums[i] equals:
+
+2, if nums[j] < nums[i] < nums[k], for all 0 <= j < i and for all i < k <= nums.length - 1.
+1, if nums[i - 1] < nums[i] < nums[i + 1], and the previous condition is not satisfied.
+0, if none of the previous conditions holds.
+Return the sum of beauty of all nums[i] where 1 <= i <= nums.length - 2.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3]
+Output: 2
+Explanation: For each index i in the range 1 <= i <= 1:
+- The beauty of nums[1] equals 2.
+Example 2:
+
+Input: nums = [2,4,6,4]
+Output: 1
+Explanation: For each index i in the range 1 <= i <= 2:
+- The beauty of nums[1] equals 1.
+- The beauty of nums[2] equals 0.
+Example 3:
+
+Input: nums = [3,2,1]
+Output: 0
+Explanation: For each index i in the range 1 <= i <= 1:
+- The beauty of nums[1] equals 0.
+
+**-- SO the all the struggle is about whether the condtion of bueaty with val 2 will true or false
+** and problem to ans this is from where we are standing we cant say that to ther right of i all ele are greater(we need this info in order to ans the if statment)
+EX   1 5 4 7 5 12 3 if i am travel from left to right i can mintain max variable in order to ans that all ele to left of i are less nor not BUT problem is i cant say 
+any thing about the right side of i because i have not explore(traverse) it.
+suppose i am standing at 7 so max var will be 5(as max ele to the right of 7 is 5) but i cant say about to the right side of 7 
+now suppose with some magic i had info about who is smallest to the right of 7 which is 3 then i can say that if cond is false 
+
+With Stack  -> SO i am taking help of stack to know that what is min ele to the right. and storing it to the array sml.
+
+Without Stack -> travelling from right to left we mintain an min var which store min ele to the right of i. and will store it to crossponding ith index of small array    
+
+
+  /************************************************************************     With Stack       ****************************************************************/
+class Solution {
+public:
+    int sumOfBeauties(vector<int>& a)
+    {
+        int n=a.size();
+        int sml[n],i=n-1;
+        stack<int> st;
+        
+        i=n-1;
+        while(i>=0)
+        {
+           if(st.empty())
+           {
+               sml[i]=-1;
+               st.push(a[i]);
+           }
+           else if(a[i] < st.top())  
+           {
+               sml[i]=st.top();
+               st.pop();
+               st.push(a[i]);
+           }
+           else
+           {
+              sml[i]=st.top();  
+           }
+            
+         i--;      
+        }
+        
+        int ans=0;
+        int maxi = a[0];  // > a[1] ? a[0] : a[1];
+        for(i=1;i<=n-2;i++)
+        {
+            if( maxi < a[i] && a[i] < sml[i] )
+                ans=ans+2;
+            else if( a[i-1] < a[i]  && a[i] < a[i+1] )
+                ans=ans+1;
+            
+            maxi = a[i] > maxi ? a[i] : maxi; 
+                
+        }
+        
+        
+       return ans; 
+    }
+};
+
+
+ /***********************************************************************     WithOut Stack        *************************************************************/
+ 
+ class Solution {
+public:
+    int sumOfBeauties(vector<int>& a)
+    {
+        int n=a.size();
+        int sml[n];
+        int mini=a[n-1];
+        
+        int i=n-2;
+        sml[n-1]=-1;
+        while(i>=0)
+        {
+            mini= min(a[i+1],mini);
+            sml[i]=mini;
+         i--;      
+        }
+        
+        int ans=0;
+        int maxi = a[0];  // > a[1] ? a[0] : a[1];
+        for(i=1;i<=n-2;i++)
+        {
+            if( maxi < a[i] && a[i] < sml[i] )
+                ans=ans+2;
+            else if( a[i-1] < a[i]  && a[i] < a[i+1] )
+                ans=ans+1;
+            
+            maxi = a[i] > maxi ? a[i] : maxi; 
+                
+        }
+        
+        
+       return ans; 
+    }
+};
+ 
+ 
