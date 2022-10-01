@@ -1,0 +1,117 @@
+You are given a 0-indexed integer array nums of even length consisting of an equal number of positive and negative integers.
+
+You should rearrange the elements of nums such that the modified array follows the given conditions:
+
+Every consecutive pair of integers have opposite signs.
+For all integers with the same sign, the order in which they were present in nums is preserved.
+The rearranged array begins with a positive integer.
+Return the modified array after rearranging the elements to satisfy the aforementioned conditions.
+Example 1:
+
+Input: nums = [3,1,-2,-5,2,-4]
+Output: [3,-2,1,-5,2,-4]
+Explanation:
+The positive integers in nums are [3,1,2]. The negative integers are [-2,-5,-4].
+The only possible way to rearrange them such that they satisfy all conditions is [3,-2,1,-5,2,-4].
+Other ways such as [1,-2,2,-5,3,-4], [3,1,2,-2,-5,-4], [-2,3,-5,1,-4,2] are incorrect because they do not satisfy one or more conditions.  
+Example 2:
+
+Input: nums = [-1,1]
+Output: [1,-1]
+Explanation:
+1 is the only positive integer and -1 the only negative integer in nums.
+So nums is rearranged to [1,-1].
+
+
+
+
+**** Oder should be maintain. So when ever this is the necessary condtion REMENBER THE NAME -*Insertion Sort(Actually You Can Say Shifting)*- 
+** But then time comp will be O(N^2) with constant space.
+
+EX-   3 1 4 5 -4 -5 -2 -3 we stand at i=1 odd index have pos val this is not acceptable hence need to change
+from i+1 we will find first neg ele and then swap both after swap oder will be change
+3 -4 4 5 1(jth) -5 -2 -3   to resotre the oder we will swap every ele from i+1 to j index
+3 -4 1 5 4(jth) -5 -2 -3 
+3 -4 1 4 5(jth) -5 -2 -3 
+repeat this for every i
+
+class Solution {
+public:
+vector<int> rearrangeArray(vector<int>& a) 
+{
+    int i=0,n=a.size();
+    int j;
+    while(i<n)
+    {
+            
+         if(i%2==0 && a[i] < 0)//we stand at even index and have neg val hence need to change it
+         {
+             j=i+1;
+             while(j<n && a[j] < 0 )//from i+1 we are finding firt positive val 
+             {
+                 j++;
+             }
+             swap(a[j],a[i]);//swaping 
+             //AFter swapping the order will be wrong hence 
+             int k=i+1;
+             while(k!=j)//all next ele after i till j we are swaping both so order can be restore
+             {
+                 swap(a[k],a[j]);
+                 k++;
+             }
+             
+         }
+        else if(i%2==1 && a[i] > 0)// we need neg
+        {
+            j=i+1;
+             while(j<n && a[j] > 0 )
+             {
+                 j++;
+             }
+             swap(a[j],a[i]);
+             
+             int k=i+1;
+             while(k!=j)
+             {
+                 swap(a[k],a[j]);
+                 k++;
+             }
+            
+        }
+        
+     }
+    return a;
+}
+};
+
+
+
+**** With Time comp O(N) --> To Maintain order we need to use O(n) Space   
+** Using 2 Ponter 
+
+class Solution {
+public:
+vector<int> rearrangeArray(vector<int>& a) 
+{
+   vector<int> ans(a.size());// to store the desire array
+   int i=0,j=1,n=0;
+   
+    while( n < a.size())// traversing array
+   {
+       if( a[n] >= 0)// if pos assign it to even place in another array ans
+       {
+           ans[i]=a[n];
+           i+=2;
+       }
+       else// if neg assign it to odd place in another array ans
+       {
+           ans[j]=a[n];
+           j+=2;
+       }
+       n++;
+   }
+   
+return ans;
+}
+
+};
