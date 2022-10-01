@@ -1,0 +1,123 @@
+You are given a positive integer num. You may swap any two digits of num that have the same parity (i.e. both odd digits or both even digits).
+
+Return the largest possible value of num after any number of swaps.
+
+ 
+
+Example 1:
+
+Input: num = 1234
+Output: 3412
+Explanation: Swap the digit 3 with the digit 1, this results in the number 3214.
+Swap the digit 2 with the digit 4, this results in the number 3412.
+Note that there may be other sequences of swaps but it can be shown that 3412 is the largest possible number.
+Also note that we may not swap the digit 4 with the digit 1 since they are of different parities.
+Example 2:
+
+Input: num = 65875
+Output: 87655
+Explanation: Swap the digit 8 with the digit 6, this results in the number 85675.
+Swap the first digit 5 with the digit 7, this results in the number 87655.
+Note that there may be other sequences of swaps but it can be shown that 87655 is the largest possible number.
+ 
+
+Constraints:
+
+1 <= num <= 109
+
+class Solution {
+public:
+    
+    int largestInteger(int num) 
+    {
+        
+      vector<pair<int,int>> even,odd;
+      string s=to_string(num);
+        
+      int l=s.size();  
+      for(int i=0; i<l; i++)
+      {
+        if(s[i]%2 == 0) //s[i] will be in ascii val 
+        {
+            even.push_back({s[i]-48,i});
+        }  
+        else
+        {
+             odd.push_back({s[i]-48,i});
+        }
+            
+      }
+        
+     sort(even.begin(),even.end(),greater<pair<int,int>>() );
+     sort(odd.begin(),odd.end(),greater<pair<int,int>>() ); 
+      
+     int i,j,mini,n;   
+        
+if(even.size() > 0)
+{      
+     i=0,j=even.size()-1;
+     n=even.size();   
+     mini=even[i].second;
+     
+     while(i<n)
+     {
+         j=even.size()-1;
+         int flag=-1;
+         mini=even[i].second;
+         
+         while(i<j)
+         {    
+            if( even[j].second < mini )
+             {
+                flag=j;
+                mini=even[j].second;
+             }
+             
+         j--;             
+         }
+         
+      if(flag!=-1)
+       {
+          even[flag].second=even[i].second;
+          swap(s[even[i].second],s[mini]);
+       }
+     i++;
+     }
+ }
+        
+if(odd.size() > 0)
+{
+     i=0,j=odd.size()-1;   
+     n=odd.size();
+     mini=odd[i].second;
+        
+     while(i<n)
+     {
+         mini=odd[i].second;
+         j=odd.size()-1;
+         int flag=-1;
+         while(i<j)
+         {    
+            if( odd[j].second < mini)
+             {
+                flag=j;
+                mini=odd[j].second;
+             }
+             
+         j--;
+         }
+         
+     if(flag!=-1)
+     {
+        odd[flag].second = odd[i].second;   
+        swap(s[mini],s[odd[i].second]);
+     } 
+         
+     i++;
+     }
+}   
+     num=stoi(s);   
+     return num;   
+        
+    }
+};
