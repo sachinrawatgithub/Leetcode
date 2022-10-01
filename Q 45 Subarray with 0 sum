@@ -1,0 +1,67 @@
+Given an array of positive and negative numbers. Find if there is a subarray (of size at-least one) with 0 sum.
+
+Example 1:
+
+Input:
+5
+4 2 -3 1 6
+
+Output: 
+Yes
+
+Explanation: 
+2, -3, 1 is the subarray 
+with sum 0.
+Example 2:
+
+Input:
+5
+4 2 0 1 6
+
+Output: 
+Yes
+
+Explanation: 
+0 is one of the element 
+in the array so there exist a 
+subarray with sum 0.
+
+**** SEE this Ex-       4 2 -3 1 6
+cumulative sum aarray   4 6  3 4 12
+NOW we all know that any number + 0 = that number itself Will use this property to solve this Q
+look at cumulative sum array 4 comes 2 times it means there is an sub array whose sum=0 only then it can possibel that in a cumulative sum array 
+we are having ele repeat twice or more. 
+
+there is some edge cases which can be handle with if statements ex - if array consist of single ele 0
+or when the whole array sum = 0 ex-   10 -10 
+
+
+class Solution{
+    public:
+    bool subArrayExists(int a[], int n)
+    {
+        int cusum[n];
+        
+        cusum[0]=a[0];
+        map<int,int> m;
+        m[a[0]]++;
+        for(int i=1;i<n;i++)
+        {
+            cusum[i]=cusum[i-1]+a[i];
+            
+            if(cusum[i]==0)
+              return true;
+            
+            if( !m[cusum[i]] )
+            {   m[cusum[i]]++;  }
+            else 
+            {  return true; }
+             
+        }
+        
+        if(cusum[n-1]==0)
+           return true;
+        
+    return false;
+    }
+};
