@@ -1,0 +1,83 @@
+Given an integer N, find its factorial.
+
+Example 1:
+
+Input: N = 5
+Output: 120
+Explanation : 5! = 1*2*3*4*5 = 120
+Example 2:
+
+Input: N = 10
+Output: 3628800
+Explanation :
+10! = 1*2*3*4*5*6*7*8*9*10 = 3628800
+
+Constraints:
+1 ≤ N ≤ 1000
+
+
+**** The thing is factorial of a 270 will have more than 27 digit hence cant be store in long long int 
+**** hence we will do some trick to store number(will use vector of vecotr). A big Vector which store all factorial from 0 to num.
+**** With basic math logic we are going to calulate factorial
+
+// Suppose you have to multiply 12345 * 15 NOW LOOK BELOW 
+
+will strat from right to left of 12345 digit by digit and multiply each digit with 127.
+A carry var initialize with 0.
+
+5*127+carray(0)=635 the last digit of 635 will be store as ans in a vector and the rest will be used as carry.(carry=63)  
+4*127+63 = 571  carry=57  1 will be store as ans
+
+and so on TILL when we reach the 1*127 as of now will have to sotre carry(if its not 0) as well 
+
+
+
+        15    29       43       57       63 
+// EX -       1        2        3        4          5
+             *127     *127     *127      *127      *127 
+        15    6         7        8       1         5  
+
+HENCE ans of 12345*127= 1567815
+Will this way reach to destination
+
+** Happy Learning **
+
+
+class Solution {
+public:
+    vector<int> factorial(int num)
+    {
+        vector<vector<int>> allfac; // will store all factorial
+        vector<int> v;
+        v.push_back(1);
+        allfac.push_back(v);
+        
+        for(int i=1;i<=num;i++)
+        {   
+            vector<int> v;
+            int carry=0,dig,n = allfac[i-1].size();
+            for(int j=n-1;j>=0;j--)
+            {
+              dig= i*allfac[i-1][j] + carry ;
+              carry=dig/10;
+              v.push_back(dig%10);
+              
+              if(j==0 && carry)//if carry is 15 we need to push carry from right to left digit by digit 
+              { 
+                  while(carry)
+                  {
+                      int d=carry%10;
+                      v.push_back(d);         
+                      carry/=10;
+                  }
+                  
+              }
+              
+            }
+            
+        reverse(v.begin(),v.end()); // at the end we are reversing vector
+        allfac.push_back(v); 
+        }
+    return allfac[num];     
+    }
+};
