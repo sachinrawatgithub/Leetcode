@@ -17,9 +17,17 @@ Output: 120
 Explanation: Subarray with maximum product
 is [2, 3, 4, 5] which gives product as 120.
 
+**** idea is to traverse array from left to right keeping two variables mini and maxi which represents the minimum and maximum product value till the ith index 
+of the array. Now, if the ith element of the array is negative that means now the values of mini and maxi will be swapped as value of maxi will become minimum 
+by multiplying it with a negative number. Now, compare the minVal and maxVal.
+
+The value of mini and maxi depends on the current index element or the product of the current index element and the previous mini and maxi respectively
 
 
-
+Arr[]  =  {6,                  -3,                       -10,       0,      2}
+maxi   =   6   6(swaped val)   -3     -18(swaped val)    180        0       2           
+mini   =   6   6(swaped val)   -18    -3(swaped val)     -10        0       0        
+ans    =   6                    6                        180        180     180        
 
 
 class Solution{
