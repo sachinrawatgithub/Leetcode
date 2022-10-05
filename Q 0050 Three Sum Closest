@@ -1,0 +1,79 @@
+Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.
+
+Return the sum of the three integers.
+
+You may assume that each input would have exactly one solution.
+
+ 
+
+Example 1:
+
+Input: nums = [-1,2,1,-4], target = 1
+Output: 2
+Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+Example 2:
+
+Input: nums = [0,0,0], target = 1
+Output: 0
+Explanation: The sum that is closest to the target is 0. (0 + 0 + 0 = 0).
+ 
+
+Constraints:
+
+3 <= nums.length <= 1000
+-1000 <= nums[i] <= 1000
+-104 <= target <= 104
+
+
+**** Optimal Approach TC-O(n^2) Using 2 pointer(2 sum) approach 
+We Need to find a triplet with sum minimum(closest) to the target.
+
+
+class Solution {
+public:
+    int threeSumClosest(vector<int>& a, int target) 
+    { 
+        sort(a.begin(),a.end()); //sorting the array to apply 2 pointer approach
+       
+        int close=INT_MAX;   // close will store the closest sum from the target initialized with max int
+        int sum,n=a.size();
+        int how_far;         // store the distance of currsum of triplet from the target
+        int l,h,currsum;     // currsum store sum of current triplet
+
+        for(int i=0;i<n-2;i++)
+        {
+            l=i+1;
+            h=n-1;
+            
+            while(l<h)
+            {
+               currsum = a[i]+a[l]+a[h]; 
+               how_far = target-currsum;  //how far we are from target              
+                
+               if( how_far < 0 )  //it means i am ahead of the target hence for the next triplet currsum must decrease hence h-- read the 2nd comment below  
+                   h--;
+               else
+                   l++; 
+              
+               int pre_close=close; // store previous close will need this below
+                
+               close = abs(how_far);  // look why we are storing abs of how_far? 
+               BECAUSE suppose we are target = -5  currsum = -2 how_far= -3( minus sign indicate that we are 3 step ahead of target. 
+               if sign would have been positive, we would say that the current sum is 3 step behind from the target.) 
+               so direction does not matter for close, whether we are ahead or behind. hence only magnitude is what matter 
+               hence we are storing magnitude in close variable. 
+                
+                
+               close = min(pre_close, close); //comparing, Is the close of current triplet is minimum or the previous close was minimum. 
+               If current close was minimum it means we have find a triplet whose sum is the closest to the target. 
+               If pre_close was minimum it means curr triplet can't be our ans.  
+                    
+               if(close != pre_close)// if close != pre_close means we have a new ans 
+                  sum=currsum;                   
+            
+            }
+        }
+       
+    return sum; //returning the closest sum of the triplet to the target   
+    }
+};
