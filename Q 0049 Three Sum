@@ -1,0 +1,120 @@
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+Example 1:
+
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+Explanation: 
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+Notice that the order of the output and the order of the triplets does not matter.
+Example 2:
+
+Input: nums = [0,1,1]
+Output: []
+Explanation: The only possible triplet does not sum up to 0.
+Example 3:
+
+Input: nums = [0,0,0]
+Output: [[0,0,0]]
+Explanation: The only possible triplet sums up to 0.
+ 
+Constraints:
+
+3 <= nums.length <= 3000
+-105 <= nums[i] <= 105
+
+**** Brute Force Force TC-O(n^3) and SC-O(n) because all triplet should be unique(wil use set) 
+**** Better Approach  TC-O(n^2) Using 2 pointer(2 sum) approach and SC-O(n) because all triplet should be unique(wil use set)
+
+
+**** Optimal Approach TC-O(n^2) Using 2 pointer(2 sum) approach and constant Space(will make some change in 2 sum )
+**** will skip all the same ele see the below example 
+EX-  -4   -1    -1    -1    0    1    2
+           i     l                    h
+if we don't skip same ele then l will point to next -1 and it will satisfy the conditon of triplet and will have same triplet once again.
+same apply with h and i.
+ 
+ 
+ 
+
+this is how we will skip ele
+while(l<h && a[l]==a[l+1]) // Skip the all the same ele 
+          l++;
+l++;  
+after above code execution 
+EX-  -4   -1    -1    -1    0    1    2
+           i                l         h
+
+BUT ORDER WHERE WE WILL APPLY THIS CODE matter.
+we will apply this code in the end. NOT IN THE Beginning.
+If we will, see what happen below 
+
+EX-  -4   -1    -1    -1    0    1    2
+                       i    l         h
+then i will not point to index 1 it will skip as a[i]==a[i+1] and straight away point to index 3 now we will miss triplet -1 -1 2
+
+
+
+
+
+
+class Solution {
+public:
+    
+    vector<vector<int>> threeSum(vector<int>& a) 
+    {
+        sort(a.begin(),a.end()); 
+  
+        vector<vector<int>> ans; //will store all the triplet
+        int i=0,n=a.size(),l,h;  
+        while(i<n)
+        {
+            l=i+1;
+            h=n-1;
+           
+            vector<int> v;
+            while(l<h)
+            {
+                int target = 0-a[i];
+                if( target == a[l]+a[h] )
+                {
+                    v.push_back(a[i]);
+                    v.push_back(a[l]);
+                    v.push_back(a[h]);
+                    ans.push_back(v);
+                    v.clear();
+                  
+               //BE cautious when using a[i+1] or a[i-1] so it does not go Array Out Of Bound    
+               while(l<h && a[l]==a[l+1])// Skip the all the same ele 
+                    l++;
+                l++;    
+            
+                while(l<h && a[h]==a[h-1])// Skip the all the same ele 
+                     h--;
+                h--;    
+                }
+                else if(target > a[l]+a[h] )
+                {
+                    l++;
+                }    
+                else
+                {
+                    h--;
+                }
+                   
+            }
+        while(i<n-1 && a[i]==a[i+1])
+               i++;
+         
+        i++;    
+        }
+        
+    return ans;  
+        
+    }
+};
