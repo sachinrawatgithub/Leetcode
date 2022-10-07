@@ -1,0 +1,176 @@
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+
+ 
+
+Example 1:
+Input: nums = [1,2,3,4]
+Output: [24,12,8,6]
+ 
+Constraints:
+
+2 <= nums.length <= 105
+-30 <= nums[i] <= 30
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+ 
+Follow up: Can you solve the problem in O(1) extra space complexity? (The output array does not count as extra space for space complexity analysis.)
+
+
+----- Solution - I (Calculate product & divide by self)
+Time Complexity : O(N)
+Space Complexity : O(1)
+With Division Operator
+
+**** We can simply calculate product of the whole array and for each element in nums, divide the product by nums[i]. 
+**** This effectively leaves us with product of whole array except self at each index. We need to take care of zeros that may occur in the array -
+
+1. If there are more than one 0s in nums, the result is an array consisting of all 0.
+2. If there is a single 0 in nums, then the result is an array consisting of all 0 except at the index where there was 0 in nums, which will contain product of rest of array.
+3. If there's no 0 in nums, then the result is an array ans where ans[i] = prod / nums[i] (prod = product of all elements in nums).
+
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& a)
+    {
+       int pro=1,n=a.size(),flag=1,counter=0;
+       vector<int> ans;
+       
+       for(int i=0;i<n;i++)
+       {
+           if(a[i])
+             pro=pro*a[i];
+           else
+           {
+               flag=0;
+               counter++;
+           }
+       } 
+       
+       if(flag)
+       {
+            for(int i=0;i<n;i++)
+            {
+               ans.push_back(pro/a[i]);
+            }
+        }
+       else if(counter == 1)
+       {
+            for(int i=0;i<n;i++)
+            {
+                if(a[i])
+                  ans.push_back(0);  
+                else
+                   ans.push_back(pro); 
+            }
+             
+       }
+       else
+       {
+           for(int i=0;i<n;i++)
+            {
+                ans.push_back(0);          
+            }
+       }
+    return ans;    
+    }
+       
+};
+
+
+
+----------Solution - II (Prefix & Suffix Products)
+Time Complexity : O(N)
+Space Complexity : O(N)
+
+
+We are required to solve this problem without using the division operator. We can do this by calculating two arrays 
+pre and suf where pre[i] contains product of all nums[j] such that j <= i, and suf[i] contains product of all nums[j] such that j >= i.
+Finally, the resulting array ans can be calculated as ans[i] = pre[i-1] * suf[i+1] which is product of all elements with index less than i multiplied
+by product of all elements with index greater than i. This is essentially equal to product of array except self at each index.
+
+
+
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& a)
+    {
+       int pro=1,n=a.size(),flag=1,counter=0;
+       int pre[n],suf[n];
+       vector<int> ans;
+       
+       for(int i=0;i<n;i++)
+       {
+          if(i==0)
+             pre[i]=1;
+          else
+             pre[i]=pre[i-1]*a[i-1]; 
+       }
+        
+       for(int i=n-1;i>=0;i--)
+       {
+          if(i==n-1)
+             suf[i]=1;
+          else
+             suf[i]=suf[i+1]*a[i+1]; 
+       } 
+    
+       for(int i=0;i<n;i++)
+       {
+          ans.push_back(pre[i]*suf[i]);
+       }
+       
+    return ans;    
+    }
+       
+};
+
+
+
+Solution - III (Space-Optimized Prefix & Suffix Products)
+Time Complexity : O(N)
+Space Complexity : O(1)
+
+We can calculate ans without maintaining two extra pre and suf arrays. We can initialize the result array ans of length equal to nums filled with 1.
+Then, for each i, we can calculate prefix product (without self), i.e, ans[i] = ans[i-1]*nums[i-1]. 
+This is same as calculating pre in previous approach but this time we are storing it within our result array. Then we iterate from the last index with a 
+variable suffixProd=1 denoting suffix product. For each i, we multiply ans[i] with suffixProd. Each time we will also update suffixProd = suffixProd * nums[i].
+The above again gives us product of array except self at each index. This is because, firstly we are storing prefix product (without self) in ans and then
+multiplying each ans[i] with suffix product which is the same that we did in the previous approach.
+
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& a)
+    {
+       int pro=1,n=a.size();
+       int pre,suf;
+       vector<int> ans(n,1);
+       
+       for(int i=1;i<n;i++)
+       {
+            ans[i]=ans[i-1]*a[i-1];  
+       }
+        
+        
+       for(int i=n-1;i>=0;i--)
+       {
+           if(i==n-1)
+             suf=a[i];
+           else
+             {
+                ans[i]=ans[i]*suf;  
+                suf=suf*a[i];
+             }
+    
+       } 
+
+       
+    return ans;    
+    }
+       
+};
