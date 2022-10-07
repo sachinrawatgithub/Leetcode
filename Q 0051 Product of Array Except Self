@@ -131,7 +131,11 @@ public:
 
 
 
-Solution - III (Space-Optimized Prefix & Suffix Products)
+Solution - III (Space-Optimized Prefix & Suffix Products) 
+prefix toh hum maintain kar sakte hai var me left to right travel kar te waqt
+suffix toh dekho hume ex waqt me dono prefix suffix nahi chiye agr hum phele pre cal kar de ans vector me fr usi me suffix se multiply kare right to left 
+travel kate wqat ek var me suffix store kar ke then multiply pre and suf. 
+
 Time Complexity : O(N)
 Space Complexity : O(1)
 
