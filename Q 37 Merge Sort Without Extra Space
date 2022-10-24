@@ -22,7 +22,7 @@ Output:
 arr1[] = [5 10]
 arr2[] = [12 18 20]
 Explanation:
-After merging two sorted arrays 
+After merging two sorted arrays
 we get 5 10 12 18 20.
 
 * 2 pointer at beginning/last here i am doing it from last.
@@ -41,7 +41,7 @@ class Solution{
         void merge(long long a1[], long long a2[], int n, int m) 
         { 
          int i=n-1,j=m-1;
-         while(j >= 0)
+         while(j >= 0)// after this a2 will be sorted and a1 is sorted but the n-1 ele need to be place in its right position.
          {
             if(a1[n-1] > a2[j])
               swap(a1[n-1],a2[j]);
@@ -52,7 +52,7 @@ class Solution{
             
             i=n-1;
             int hole=a1[n-1];
-            while(i > 0 && a1[i-1] > hole)
+            while(i > 0 && a1[i-1] > hole)// using insertion sort logic placing n-1 ele of a1 in its correct postion.
             {
                 if(a1[i-1] > hole)
                   a1[i]=a1[i-1];
